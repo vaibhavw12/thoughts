@@ -1,3 +1,4 @@
+// required packages for backend
 const express = require('express')
 const bodyParser = require('body-parser')
 const dotenv = require('dotenv')
@@ -8,16 +9,19 @@ dotenv.config()
 
 const app = express()
 
+// middlewares
 app.use(bodyParser.urlencoded({extended : false}))
 app.use(bodyParser.json())
 app.use(cors())
 
+// model for mongodb database
 const Thoughts = mongoose.model('Thoughts',{
-    title : String,
+    title : String, 
     data : String,
     date : String
 })
 
+// home route for calling get request using api 
 app.get('/', async (req , res)=>{
     try{
        const getData = await Thoughts.find() 
@@ -33,6 +37,7 @@ app.get('/', async (req , res)=>{
     }
 })
 
+// post request for sending data from client to server using api
 app.post('/', async (req , res)=>{
     try{
         const {title, data, date} = req.body
@@ -49,6 +54,7 @@ app.post('/', async (req , res)=>{
      }
 })
 
+// api for updating or modifying the info send by the client
 app.put('/:id', async (req , res)=>{
     const cardId = req.params.id;
     // const updatedText = req.body.data;
@@ -68,6 +74,7 @@ app.put('/:id', async (req , res)=>{
      }
 })
 
+// deleting the card using delete request
 app.delete('/:id', async (req , res)=>{
     const cardId = req.params.id;
     // console.log(cardId)
@@ -85,6 +92,7 @@ app.delete('/:id', async (req , res)=>{
 })
 
 app.listen(process.env.PORT, ()=>{
+    // mongodb connection using mongodb compass and mongoose package
     mongoose.connect('mongodb://localhost:27017')
     .then(()=>{
         console.log('db connected and server is running')

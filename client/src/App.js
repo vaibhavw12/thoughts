@@ -4,26 +4,31 @@ import Header from './components/Header';
 import Cards from './components/Cards';
 import axios from 'axios'
 
-const YourComponent = () => {
-  const [title, setTitle] = useState('');
-  const [thoughts, setThoughts] = useState([]);
-  const [autosave, setAutosave] = useState(true);
+const App = () => {
+  // state hooks for managing states on client side
+  const [title, setTitle] = useState('');       // setting title of the card
+  const [thoughts, setThoughts] = useState([]); // an arrry to get all the data 
+  const [autosave, setAutosave] = useState(true); // autosave option bydefault set to true
 
+  // getting current date
   const currentDate = new Date();
   const day = currentDate.getDate();
   const month = currentDate.getMonth() + 1; 
   const year = currentDate.getFullYear();
   const formattedDate = `${day < 10 ? '0' + day : day}/${month < 10 ? '0' + month : month}/${year}`;
+
+  // obj for storing data from user
   let thought = {
     title : title,
-    data : '',
+    data : '',  // bydefault data field is empty
     date : formattedDate
   }
 
   const getTitle = (e) => {
-    setTitle(e.target.value);
+    setTitle(e.target.value);       // getting title of the card
   };
 
+  // setting all data using thought object to database by post api
   const getNote = () => {
     axios.post('http://localhost:4000/',thought)
     .then((res)=>{
@@ -32,10 +37,14 @@ const YourComponent = () => {
     })
   };
 
+  // toggleAutosave function disable or enables the autosave mode
   const toggleAutosave = () => {
     setAutosave((prevAutosave) => !prevAutosave);
   };
+
+  // useeffect hook runs on first render and when getnote runs 
   useEffect(() => {
+    // get api to get all data from database
     axios.get('http://localhost:4000/')
     .then((res)=>{
       setThoughts(res.data.data)
@@ -72,6 +81,7 @@ const YourComponent = () => {
           </label>
         </div>
         <div className="grid-container">
+          {/* sperate component for Cards for each card creation */}
           {thoughts &&
             thoughts.map((thought) => (
               <Cards
@@ -89,4 +99,4 @@ const YourComponent = () => {
   );
 };
 
-export default YourComponent;
+export default App;
