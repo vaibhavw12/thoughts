@@ -1,0 +1,20 @@
+.header-container {
+    background-color: #4caf50;/* 4caf50 */
+    color: white;
+    padding: 20px;
+    text-align: center;
+    font-size: 2rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 20px;
+  }
+  .header-text{
+    color: olive;
+  }
+  .subtext {
+    animation: fadeInOut 2s ease-in-out ;
+    font-size: 1rem;
+    margin-top: 10px;
+  }
